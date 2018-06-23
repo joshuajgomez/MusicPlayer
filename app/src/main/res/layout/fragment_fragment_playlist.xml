@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/backgroundColor"
+    android:clickable="true"
+    tools:context=".view.fragment.FragmentPlaylist">
+
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/playlist_left_margin"
+            android:text="Auto Playlists"
+            android:textColor="?attr/titleColor"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/last_added_card"
+                android:layout_width="@dimen/card_width"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/playlist_left_margin"
+                app:cardBackgroundColor="?attr/cardBackground"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="5dp">
+
+                <LinearLayout
+                    android:paddingBottom="10dp"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/last_pic1"
+                            android:layout_width="@dimen/card_grid_image_width"
+                            android:layout_height="@dimen/card_grid_image_height"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerCrop"
+                            android:src="?attr/defaultAlbumArt" />
+
+                        <ImageView
+                            android:id="@+id/last_pic2"
+                            android:layout_width="@dimen/card_grid_image_width"
+                            android:layout_height="@dimen/card_grid_image_height"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:scaleType="centerCrop"
+                            android:src="?attr/defaultAlbumArt" />
+
+                        <ImageView
+                            android:id="@+id/last_pic3"
+                            android:layout_width="@dimen/card_grid_image_width"
+                            android:layout_height="@dimen/card_grid_image_height"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_below="@id/last_pic1"
+                            android:scaleType="centerCrop"
+                            android:src="?attr/defaultAlbumArt" />
+
+                        <ImageView
+                            android:id="@+id/last_pic4"
+                            android:layout_width="@dimen/card_grid_image_width"
+                            android:layout_height="@dimen/card_grid_image_height"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@+id/last_pic2"
+                            android:scaleType="centerCrop"
+                            android:src="?attr/defaultAlbumArt" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:singleLine="true"
+                        android:text="Last added"
+                        android:textColor="?attr/titleColor"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/favourites_card"
+                android:layout_width="@dimen/card_width"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/playlist_left_margin"
+                app:cardBackgroundColor="?attr/cardBackground"
+
+                app:cardCornerRadius="5dp"
+                app:cardElevation="5dp">
+
+                <LinearLayout
+                    android:paddingBottom="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/pic1"
+                            android:layout_width="@dimen/card_grid_image_width"
+                            android:layout_height="@dimen/card_grid_image_height"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:scaleType="centerCrop"
+                            android:src="?attr/defaultAlbumArt" />
+
+                        <ImageView
+                            android:id="@+id/pic2"
+                            android:layout_width="@dimen/card_grid_image_width"
+                            android:layout_height="@dimen/card_grid_image_height"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:scaleType="centerCrop"
+                            android:src="?attr/defaultAlbumArt" />
+
+                        <ImageView
+                            android:id="@+id/pic3"
+                            android:layout_width="@dimen/card_grid_image_width"
+                            android:layout_height="@dimen/card_grid_image_height"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_below="@id/pic1"
+                            android:scaleType="centerCrop"
+                            android:src="?attr/defaultAlbumArt" />
+
+
+                        <ImageView
+                            android:id="@+id/pic4"
+                            android:layout_width="@dimen/card_grid_image_width"
+                            android:layout_height="@dimen/card_grid_image_height"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@+id/pic2"
+                            android:scaleType="centerCrop"
+                            android:src="?attr/defaultAlbumArt" />
+
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:singleLine="true"
+                        android:text="Favourites"
+                        android:textColor="?attr/titleColor"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

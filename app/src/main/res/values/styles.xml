@@ -1,0 +1,126 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppThemeSettings" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="FullDialogActivityTheme" parent="AppThemeDark">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="AppThemeDark" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="titleColor">@color/white</item>
+        <item name="shadedColor">@color/light_gray</item>
+        <item name="backgroundColor">@color/colorPrimaryDark</item>
+        <item name="nowPlayingBackground">@color/colorAccent</item>
+        <item name="listBackground">@color/darker_gray</item>
+        <item name="cardBackground">@color/dark_gray</item>
+
+        <item name="prevIcon">@mipmap/prev</item>
+        <item name="nextIcon">@mipmap/next</item>
+        <item name="shuffleIconOn">@mipmap/shuffle_red</item>
+        <item name="shuffleIconOff">@mipmap/shuffle_dark</item>
+
+        <item name="repeatIconOn">@mipmap/repeat_red</item>
+        <item name="repeatIconOff">@mipmap/repeat_dark</item>
+        <item name="closeIcon">@mipmap/close</item>
+        <item name="playListIcon">@mipmap/playlist</item>
+        <item name="defaultAlbumArt">@drawable/no_cover</item>
+        <item name="shareIcon">@mipmap/share</item>
+        <item name="playIcon">@mipmap/play</item>
+        <item name="pauseIcon">@mipmap/pause</item>
+        <item name="playIconLite">@mipmap/play_white</item>
+        <item name="pauseIconLite">@mipmap/pause_white</item>
+        <item name="songIcon">@drawable/song</item>
+        <item name="albumIcon">@drawable/album</item>
+        <item name="artistIcon">@drawable/artist</item>
+        <item name="searchIcon">@mipmap/search</item>
+        <item name="titleLogo">@drawable/marshall</item>
+        <item name="playListTabIcon">@drawable/play_list_white</item>
+        <item name="infoIcon">@mipmap/info_white</item>
+    </style>
+
+
+    <style name="AppThemeLight" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/red</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="titleColor">@color/black</item>
+        <item name="shadedColor">@color/light_gray2</item>
+        <item name="backgroundColor">@color/off_white</item>
+        <item name="nowPlayingBackground">@color/white</item>
+        <item name="listBackground">@color/ultra_light_gray</item>
+        <item name="cardBackground">@color/white</item>
+
+        <item name="prevIcon">@mipmap/prev_black</item>
+        <item name="nextIcon">@mipmap/next_black</item>
+        <item name="shuffleIconOn">@mipmap/shuffle_red</item>
+        <item name="shuffleIconOff">@mipmap/shuffle_dark</item>
+
+        <item name="repeatIconOn">@mipmap/repeat_red</item>
+        <item name="repeatIconOff">@mipmap/repeat_dark</item>
+        <item name="closeIcon">@mipmap/close_black</item>
+        <item name="playListIcon">@mipmap/play_list_black</item>
+        <item name="defaultAlbumArt">@drawable/no_cover</item>
+        <item name="shareIcon">@mipmap/share_black</item>
+        <item name="playIcon">@mipmap/play_red</item>
+        <item name="pauseIcon">@mipmap/pause_red</item>
+        <item name="playIconLite">@mipmap/play_lite_red</item>
+        <item name="pauseIconLite">@mipmap/pause_lite_red</item>
+        <item name="songIcon">@drawable/song_black</item>
+        <item name="albumIcon">@drawable/album_black</item>
+        <item name="artistIcon">@drawable/person_black</item>
+        <item name="searchIcon">@mipmap/search_black</item>
+        <item name="titleLogo">@drawable/marshall</item>
+        <item name="playListTabIcon">@drawable/play_list_black</item>
+        <item name="infoIcon">@mipmap/info_black</item>
+    </style>
+
+    <style name="StartScreen" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="windowActionBar">false</item>
+        <item name="android:windowBackground">@drawable/start_screen</item>
+
+    </style>
+
+    <style name="info_title">
+        <item name="android:textColor">?attr/titleColor</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:alpha">0.8</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
+
+    <style name="info_detail">
+        <item name="android:textColor">?attr/titleColor</item>
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:alpha">0.5</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+</resources>

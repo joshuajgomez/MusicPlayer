@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="titleColor" format="color" />
+    <attr name="backgroundColor" format="color" />
+    <attr name="shadedColor" format="color" />
+    <attr name="nowPlayingBackground" format="color" />
+    <attr name="listBackground" format="color" />
+    <attr name="cardBackground" format="color" />
+
+    <attr name="defaultAlbumArt" format="reference" />
+    <attr name="prevIcon" format="reference" />
+    <attr name="playIcon" format="reference" />
+    <attr name="pauseIcon" format="reference" />
+    <attr name="playIconLite" format="reference" />
+    <attr name="pauseIconLite" format="reference" />
+    <attr name="nextIcon" format="reference" />
+    <attr name="shuffleIconOff" format="reference" />
+    <attr name="shuffleIconOn" format="reference" />
+    <attr name="repeatIconOff" format="reference" />
+    <attr name="repeatIconOn" format="reference" />
+    <attr name="closeIcon" format="reference" />
+    <attr name="playListIcon" format="reference" />
+    <attr name="shareIcon" format="reference" />
+    <attr name="songIcon" format="reference" />
+    <attr name="albumIcon" format="reference" />
+    <attr name="artistIcon" format="reference" />
+    <attr name="searchIcon" format="reference" />
+    <attr name="titleLogo" format="reference" />
+    <attr name="playListTabIcon" format="reference" />
+    <attr name="infoIcon" format="reference" />
+
+</resources>
