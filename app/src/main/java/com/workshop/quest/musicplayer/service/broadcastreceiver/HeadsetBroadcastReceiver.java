@@ -1,4 +1,4 @@
-package com.workshop.quest.musicplayer.service;
+package com.workshop.quest.musicplayer.service.broadcastreceiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

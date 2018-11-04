@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
 
     <application
+        android:name=".base.BaseApp"
         android:allowBackup="true"
         android:icon="@mipmap/marshall_red_logo_round"
         android:label="@string/app_name"
@@ -43,7 +44,7 @@
 
         <activity android:name=".view.activity.SettingsActivity" />
 
-        <receiver android:name=".service.CallBroadcastReceiver">
+        <receiver android:name=".service.broadcastreceiver.CallBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>

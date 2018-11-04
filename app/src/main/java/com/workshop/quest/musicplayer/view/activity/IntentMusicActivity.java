@@ -7,27 +7,22 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.workshop.quest.musicplayer.R;
-import com.workshop.quest.musicplayer.base.BaseActivity;
-import com.workshop.quest.musicplayer.generic.MediaProvider;
-import com.workshop.quest.musicplayer.generic.ResUtil;
 import com.workshop.quest.musicplayer.model.Song;
+import com.workshop.quest.musicplayer.service.musicmanager.IMusicPlayer;
 import com.workshop.quest.musicplayer.service.MusicPlayerService;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -45,20 +40,20 @@ public class IntentMusicActivity extends AppCompatActivity
     private Song song;
     private CardView cardView;
     private boolean isBound;
-    private MusicPlayerService musicPlayerService;
+    private IMusicPlayer mMusicPlayer;
     private ServiceConnection musicServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             isBound = true;
             MusicPlayerService.MusicBinder musicBinder = (MusicPlayerService.MusicBinder) service;
-            musicPlayerService = musicBinder.getMusicPlayerService();
+            mMusicPlayer = musicBinder.getMusicPlayer();
 
 
             song = getSong();
             ArrayList<Song> songs = new ArrayList<Song>();
             songs.add(song);
-            musicPlayerService.playSong(song, songs);
-            musicPlayerService.setCompletionListener(IntentMusicActivity.this);
+            mMusicPlayer.initMusicPlayer(song, songs);
+            mMusicPlayer.setCompletionListener(IntentMusicActivity.this);
             albumArt.setImageBitmap(getCoverArt(song));
             try {
                 trackName.setText(song.getTrack());
@@ -72,7 +67,7 @@ public class IntentMusicActivity extends AppCompatActivity
                 @Override
                 public void run() {
                     try {
-                        seekBar.setProgress(musicPlayerService.getPercentValue());
+                        seekBar.setProgress(mMusicPlayer.getCurrentPositionByPercentValue());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -118,11 +113,11 @@ public class IntentMusicActivity extends AppCompatActivity
     }
 
     private void playButtonClick() {
-        if (musicPlayerService.isPlaying()) {
-            musicPlayerService.pauseSong();
+        if (mMusicPlayer.isNowPlaying()) {
+            mMusicPlayer.pauseSong();
             playButton.setImageResource(R.mipmap.play_white);
         } else {
-            musicPlayerService.resumeSong();
+            mMusicPlayer.resumeSong();
             playButton.setImageResource(R.mipmap.pause_white);
         }
     }
@@ -153,7 +148,7 @@ public class IntentMusicActivity extends AppCompatActivity
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (fromUser)
-            musicPlayerService.seekTo(progress);
+            mMusicPlayer.seekTo(progress);
     }
 
     @Override

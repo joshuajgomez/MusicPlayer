@@ -16,7 +16,11 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.workshop.quest.musicplayer.generic.SharedUtil;
 import com.workshop.quest.musicplayer.generic.database.DatabaseManager;
+import com.workshop.quest.musicplayer.generic.log.Loggy;
+import com.workshop.quest.musicplayer.service.musicmanager.IMusicPlayer;
+import com.workshop.quest.musicplayer.service.musicmanager.MusicPlayerCallback;
 import com.workshop.quest.musicplayer.service.MusicPlayerService;
 import com.workshop.quest.musicplayer.R;
 import com.workshop.quest.musicplayer.base.BaseActivity;
@@ -27,13 +31,12 @@ import com.workshop.quest.musicplayer.view.fragment.SongInfoFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MusicPlayerActivity extends BaseActivity
-        implements SeekBar.OnSeekBarChangeListener,
-        MusicPlayerService.MusicServiceCallback,
-        PlayListFragment.PlayListInteractor {
+public class MusicPlayerActivity extends BaseActivity implements SeekBar.OnSeekBarChangeListener,
+        MusicPlayerCallback, PlayListFragment.PlayListInteractor {
 
     private TextView currentTime;
     private TextView totalTime;
@@ -47,7 +50,7 @@ public class MusicPlayerActivity extends BaseActivity
     private Handler handler;
     private Timer timer = new Timer();
     private String PLAY_LIST_FRAGMENT = "PLAY_LIST_FRAGMENT";
-    MusicPlayerService musicPlayerService;
+    IMusicPlayer mMusicPlayer;
     ImageView favIcon;
 
     private ServiceConnection musicServiceConnection = new ServiceConnection() {
@@ -55,8 +58,8 @@ public class MusicPlayerActivity extends BaseActivity
         public void onServiceConnected(ComponentName name, IBinder service) {
             isBound = true;
             MusicPlayerService.MusicBinder musicBinder = (MusicPlayerService.MusicBinder) service;
-            musicPlayerService = musicBinder.getMusicPlayerService();
-            musicPlayerService.setServiceCallback(MusicPlayerActivity.this);
+            mMusicPlayer = musicBinder.getMusicPlayer();
+            mMusicPlayer.registerCallback(MusicPlayerActivity.this);
             initUI();
         }
 
@@ -92,53 +95,22 @@ public class MusicPlayerActivity extends BaseActivity
         if (getIntent().hasExtra("song")) {
             songList = getIntent().getParcelableArrayListExtra("song_list");
             song = getIntent().getParcelableExtra("song");
-            musicPlayerService.playSong(song, songList);
+            mMusicPlayer.initMusicPlayer(song, songList);
             getIntent().removeExtra("song");
         } else {
-            song = musicPlayerService.getCurrentSong();
-            songList = musicPlayerService.getPlayList();
+            song = mMusicPlayer.getNowPlayingSong();
+            songList = (ArrayList<Song>) mMusicPlayer.getPlayList();
         }
 
-        updateUI(song);
+        notifySongChanged(song);
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                seekBar.setProgress(musicPlayerService.getPercentValue());
-                handler.post(() -> currentTime.setText(getTime(musicPlayerService.getCurrentPosition())));
+                seekBar.setProgress(mMusicPlayer.getCurrentPositionByPercentValue());
+                handler.post(() -> currentTime.setText(getTime(mMusicPlayer.getCurrentPosition())));
             }
         }, 0, 500);
 
-    }
-
-    @Override
-    public void updateUI(Song song) {
-
-        if (song == null) return;
-
-        playButton.setImageResource(musicPlayerService.isPlaying() ? ResUtil.getResId(R.attr.pauseIcon, this) : ResUtil.getResId(R.attr.playIcon, this));
-        trackName.setText(song.getTrack());
-        trackName.setSelected(true);
-        artistName.setSelected(true);
-        artistName.setText(song.getArtist());
-        currentTime.setText(getTime(0));
-        totalTime.setText(getTime(song.getDuration()));
-        albumArt.setImageBitmap(song.getCoverArt(this));
-        albumArt.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-        PlayListFragment fragment = (PlayListFragment) getSupportFragmentManager().findFragmentById(R.id.playlist_fragment);
-        if (fragment != null && fragment.isInLayout())
-            fragment.setCurrentSong(song);
-        else {
-            PlayListFragment fragment2 = (PlayListFragment) getSupportFragmentManager()
-                    .findFragmentByTag(PLAY_LIST_FRAGMENT);
-            if (fragment2 != null) {
-                fragment2.setCurrentSong(song);
-            }
-        }
-
-
-        DatabaseManager databaseManager = new DatabaseManager(this);
-        favIcon.setImageResource(databaseManager.isFavourite(song) ? R.mipmap.fav_on : R.mipmap.fav_off);
     }
 
     @Override
@@ -157,49 +129,50 @@ public class MusicPlayerActivity extends BaseActivity
     }
 
     public void playButtonClick(View view) {
-        if (musicPlayerService.isPlaying()) {
-            musicPlayerService.pauseSong();
+        if (mMusicPlayer.isNowPlaying()) {
+            mMusicPlayer.pauseSong();
             playButton.setImageResource(ResUtil.getResId(R.attr.playIcon, this));
         } else {
-            musicPlayerService.resumeSong();
+            mMusicPlayer.resumeSong();
             playButton.setImageResource(ResUtil.getResId(R.attr.pauseIcon, this));
         }
 
     }
 
     public void nextButton(View view) {
-        musicPlayerService.nextSong();
+        mMusicPlayer.startNextSong();
     }
 
     public void shuffleButton(View view) {
         if (shuffleSong) {
             shuffleSong = false;
             shuffleButton.setImageResource(ResUtil.getResId(R.attr.shuffleIconOff, this));
-            musicPlayerService.playSong(songList.get(0), songList);
+            mMusicPlayer.initMusicPlayer(songList.get(0), songList);
         } else {
             shuffleSong = true;
             shuffleButton.setImageResource(ResUtil.getResId(R.attr.shuffleIconOn, this));
-            ArrayList<Song> playList = (ArrayList<Song>) songList.clone();
+
+            List<Song> playList = (List<Song>) songList.clone();
             Collections.shuffle(playList);
-            musicPlayerService.playSong(playList.get(0), playList);
+            mMusicPlayer.initMusicPlayer(playList.get(0), playList);
         }
 
         PlayListFragment fragment = (PlayListFragment) getSupportFragmentManager().findFragmentById(R.id.playlist_fragment);
         if (fragment != null && fragment.isInLayout())
-            fragment.setSongList(musicPlayerService.getPlayList());
+            fragment.setSongList(mMusicPlayer.getPlayList());
     }
 
     public void prevButton(View view) {
-        musicPlayerService.previousSong();
+        mMusicPlayer.startPreviousSong();
     }
 
     public void repeatButton(View view) {
-        if (musicPlayerService.isRepeatSong()) {
+        if (SharedUtil.getRepeatSongPref()) {
             repeatButton.setImageResource(ResUtil.getResId(R.attr.repeatIconOff, this));
-            musicPlayerService.setRepeatSong(false);
+            SharedUtil.setRepeatSongPref(false);
         } else {
             repeatButton.setImageResource(ResUtil.getResId(R.attr.repeatIconOn, this));
-            musicPlayerService.setRepeatSong(true);
+            SharedUtil.setRepeatSongPref(true);
         }
     }
 
@@ -218,7 +191,7 @@ public class MusicPlayerActivity extends BaseActivity
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (fromUser)
-            musicPlayerService.seekTo(progress);
+            mMusicPlayer.seekTo(progress);
     }
 
     @Override
@@ -239,7 +212,7 @@ public class MusicPlayerActivity extends BaseActivity
     }
 
     public void shareButton(View view) {
-        Song currentSong = musicPlayerService.getCurrentSong();
+        Song currentSong = mMusicPlayer.getNowPlayingSong();
         Uri uri = Uri.parse(currentSong.getSongUrl());
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("audio/*");
@@ -248,20 +221,20 @@ public class MusicPlayerActivity extends BaseActivity
     }
 
     @Override
-    public void playSong(Song song, ArrayList<Song> list) {
-        musicPlayerService.playSong(song, list);
+    public void playSong(Song song, List<Song> list) {
+        mMusicPlayer.initMusicPlayer(song, list);
     }
 
     @Override
     public Song getCurrentSong() {
-        if (musicPlayerService != null)
-            return musicPlayerService.getCurrentSong();
+        if (mMusicPlayer != null)
+            return mMusicPlayer.getNowPlayingSong();
         else return null;
     }
 
     @Override
-    public ArrayList<Song> getCurrentSongList() {
-        return musicPlayerService.getPlayList();
+    public List<Song> getCurrentSongList() {
+        return mMusicPlayer.getPlayList();
     }
 
     public static void play(Context context, ArrayList<Song> songList, Song song) {
@@ -273,7 +246,7 @@ public class MusicPlayerActivity extends BaseActivity
 
     public void albumClick(View view) {
         DatabaseManager databaseManager = new DatabaseManager(this);
-        databaseManager.addSongToFavourites(musicPlayerService.getCurrentSong());
+        databaseManager.addSongToFavourites(mMusicPlayer.getNowPlayingSong());
         showToast("Song added to favourites");
     }
 
@@ -283,7 +256,7 @@ public class MusicPlayerActivity extends BaseActivity
 
     public void favIconClick(View view) {
         DatabaseManager databaseManager = new DatabaseManager(this);
-        Song currentSong = musicPlayerService.getCurrentSong();
+        Song currentSong = mMusicPlayer.getNowPlayingSong();
         Log.println(Log.ASSERT, "favIconClick id", currentSong.getId() + "");
         if (databaseManager.isFavourite(currentSong)) {
             databaseManager.removeSongFromFavourites(currentSong);
@@ -297,8 +270,37 @@ public class MusicPlayerActivity extends BaseActivity
     public void infoButton(View view) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.frame_layout, SongInfoFragment.newInstance(musicPlayerService.getCurrentSong()), "song_info_fragment")
+                .replace(R.id.frame_layout, SongInfoFragment.newInstance(mMusicPlayer.getNowPlayingSong()), "song_info_fragment")
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void notifySongChanged(final Song song) {
+        if (song != null) {
+        playButton.setImageResource(mMusicPlayer.isNowPlaying() ? ResUtil.getResId(R.attr.pauseIcon, this) : ResUtil.getResId(R.attr.playIcon, this));
+        trackName.setText(song.getTrack());
+        trackName.setSelected(true);
+        artistName.setSelected(true);
+        artistName.setText(song.getArtist());
+        currentTime.setText(getTime(0));
+        totalTime.setText(getTime(song.getDuration()));
+        albumArt.setImageBitmap(song.getCoverArt(this));
+        albumArt.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        PlayListFragment fragment = (PlayListFragment) getSupportFragmentManager().findFragmentById(R.id.playlist_fragment);
+        if (fragment != null && fragment.isInLayout())
+            fragment.setCurrentSong(song);
+        else {
+            PlayListFragment fragment2 = (PlayListFragment) getSupportFragmentManager()
+                    .findFragmentByTag(PLAY_LIST_FRAGMENT);
+            if (fragment2 != null) {
+                fragment2.setCurrentSong(song);
+            }
+        }
+        DatabaseManager databaseManager = new DatabaseManager(this);
+        favIcon.setImageResource(databaseManager.isFavourite(song) ? R.mipmap.fav_on : R.mipmap.fav_off);
+        } else {
+            Loggy.log(Log.WARN, "song is null");
+        }
     }
 }

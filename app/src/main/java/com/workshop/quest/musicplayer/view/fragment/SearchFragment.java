@@ -17,6 +17,8 @@ import com.workshop.quest.musicplayer.model.Song;
 import com.workshop.quest.musicplayer.view.activity.MusicPlayerActivity;
 import com.workshop.quest.musicplayer.view.adapter.SongAdapter;
 
+import java.util.ArrayList;
+
 public class SearchFragment extends Fragment implements TextWatcher {
 
     private SongAdapter songAdapter;
@@ -33,7 +35,7 @@ public class SearchFragment extends Fragment implements TextWatcher {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                MusicPlayerActivity.play(getActivity(), songAdapter.getSongs(), (Song) songAdapter.getItem(position));
+                MusicPlayerActivity.play(getActivity(), (ArrayList<Song>) songAdapter.getSongs(), (Song) songAdapter.getItem(position));
             }
         });
         searchText.addTextChangedListener(this);

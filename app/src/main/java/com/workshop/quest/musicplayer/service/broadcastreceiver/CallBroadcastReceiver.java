@@ -1,4 +1,4 @@
-package com.workshop.quest.musicplayer.service;
+package com.workshop.quest.musicplayer.service.broadcastreceiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+
+import com.workshop.quest.musicplayer.service.MusicPlayerService;
 
 import static android.content.Context.TELEPHONY_SERVICE;
 

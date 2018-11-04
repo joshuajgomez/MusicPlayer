@@ -18,6 +18,7 @@ import com.workshop.quest.musicplayer.view.adapter.ImageAdpater;
 import com.workshop.quest.musicplayer.view.adapter.SongAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlayListFragment extends Fragment implements AdapterView.OnItemClickListener {
 
@@ -25,7 +26,7 @@ public class PlayListFragment extends Fragment implements AdapterView.OnItemClic
     private static final String SONG_LIST_KEY = "SONG_LIST";
     private SongAdapter adapter;
     private PlayListInteractor interactor;
-    private ArrayList<Song> songs;
+    private List<Song> songs;
     private TextView songCount;
     RecyclerView recyclerView;
 
@@ -59,7 +60,7 @@ public class PlayListFragment extends Fragment implements AdapterView.OnItemClic
     public void setCurrentSong(Song song) {
         if (adapter == null) {
             songs = interactor.getCurrentSongList();
-            recyclerView.setAdapter(new ImageAdpater(songs, getActivity()));
+            recyclerView.setAdapter(new ImageAdpater(getContext(), songs));
             recyclerView.smoothScrollToPosition(songs.size() - 1);
             adapter = new SongAdapter(songs, getContext());
             listView.setAdapter(adapter);
@@ -76,18 +77,18 @@ public class PlayListFragment extends Fragment implements AdapterView.OnItemClic
             interactor.playSong((Song) adapter.getItem(position), songs);
     }
 
-    public void setSongList(ArrayList<Song> playList) {
+    public void setSongList(List<Song> playList) {
         songs = playList;
         adapter.setSongs(playList);
         listView.smoothScrollToPosition(0);
     }
 
     public interface PlayListInteractor {
-        void playSong(Song song, ArrayList<Song> list);
+        void playSong(Song song, List<Song> list);
 
         Song getCurrentSong();
 
-        ArrayList<Song> getCurrentSongList();
+        List<Song> getCurrentSongList();
     }
 
 

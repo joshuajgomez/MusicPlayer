@@ -14,13 +14,14 @@ import com.workshop.quest.musicplayer.generic.BitmapBuilder;
 import com.workshop.quest.musicplayer.model.Song;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ImageAdpater extends RecyclerView.Adapter<ImageAdpater.ImageViewHolder> {
 
-    private ArrayList<Song> songs;
+    private List<Song> songs;
     private Context context;
 
-    public ImageAdpater(ArrayList<Song> songs, Context context) {
+    public ImageAdpater(Context context, List<Song> songs) {
         this.songs = songs;
         this.context = context;
     }

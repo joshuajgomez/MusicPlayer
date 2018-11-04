@@ -2,11 +2,9 @@ package com.workshop.quest.musicplayer.view.activity;
 
 import android.Manifest;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -20,15 +18,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import android.view.ViewGroup;
-import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.workshop.quest.musicplayer.service.musicmanager.IMusicPlayer;
+import com.workshop.quest.musicplayer.service.musicmanager.MusicPlayerCallback;
 import com.workshop.quest.musicplayer.service.MusicPlayerService;
 import com.workshop.quest.musicplayer.R;
 import com.workshop.quest.musicplayer.base.BaseActivity;
@@ -41,15 +37,14 @@ import com.workshop.quest.musicplayer.view.fragment.SongListFragment;
 
 import java.util.ArrayList;
 
-public class MainActivity extends BaseActivity implements
-        MusicPlayerService.MusicServiceCallback,
+public class MainActivity extends BaseActivity implements MusicPlayerCallback,
         SongListFragment.SongListInteractor {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private LinearLayout noPermissionView;
     private TabLayout tabLayout;
-    MusicPlayerService musicPlayerService;
+    private IMusicPlayer mMusicPlayer;
     private RelativeLayout nowPlayingBar;
 
     private ServiceConnection musicServiceConnection = new ServiceConnection() {
@@ -57,11 +52,11 @@ public class MainActivity extends BaseActivity implements
         public void onServiceConnected(ComponentName name, IBinder service) {
             isBound = true;
             MusicPlayerService.MusicBinder musicBinder = (MusicPlayerService.MusicBinder) service;
-            musicPlayerService = musicBinder.getMusicPlayerService();
-            musicPlayerService.setServiceCallback(MainActivity.this);
+            mMusicPlayer = musicBinder.getMusicPlayer();
+            mMusicPlayer.registerCallback(MainActivity.this);
 
-            if (musicPlayerService != null && musicPlayerService.getCurrentSong() != null) {
-                updateUI(musicPlayerService.getCurrentSong());
+            if (mMusicPlayer != null && mMusicPlayer.getNowPlayingSong() != null) {
+                notifySongChanged(mMusicPlayer.getNowPlayingSong());
                 nowPlayingBar.setVisibility(View.VISIBLE);
             } else nowPlayingBar.setVisibility(View.GONE);
         }
@@ -97,8 +92,8 @@ public class MainActivity extends BaseActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        if (musicPlayerService != null && musicPlayerService.getCurrentSong() != null) {
-            updateUI(musicPlayerService.getCurrentSong());
+        if (mMusicPlayer != null && mMusicPlayer.getNowPlayingSong() != null) {
+            notifySongChanged(mMusicPlayer.getNowPlayingSong());
             nowPlayingBar.setVisibility(View.VISIBLE);
         } else nowPlayingBar.setVisibility(View.GONE);
     }
@@ -159,41 +154,15 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
-    @Override
-    public void updateUI(Song song) {
-        TextView track = findViewById(R.id.track_name);
-        TextView artist = findViewById(R.id.artist_name);
-        ImageView imageView = findViewById(R.id.image_name);
-        ImageView playButton = findViewById(R.id.play);
-
-        track.setText(song.getTrack());
-        artist.setText(song.getArtist());
-        track.setSelected(true);
-        artist.setSelected(true);
-        imageView.setImageBitmap(song.getCoverArt(this));
-        playButton.setImageResource(musicPlayerService.isPlaying()
-                ? ResUtil.getResId(R.attr.pauseIconLite, this)
-                : ResUtil.getResId(R.attr.playIconLite, this));
-        playButton.setOnClickListener(v -> {
-            if (musicPlayerService.isPlaying()) {
-                musicPlayerService.pauseSong();
-                playButton.setImageResource(ResUtil.getResId(R.attr.playIconLite, this));
-            } else {
-                musicPlayerService.resumeSong();
-                playButton.setImageResource(ResUtil.getResId(R.attr.pauseIconLite, this));
-            }
-        });
-    }
-
     public void playSong(View view) {
         startActivity(new Intent(this, MusicPlayerActivity.class));
     }
 
     @Override
     public void playSong(Song song, ArrayList<Song> songs) {
-        if (musicPlayerService != null) {
-            musicPlayerService.playSong(song, songs);
-            updateUI(musicPlayerService.getCurrentSong());
+        if (mMusicPlayer != null) {
+            mMusicPlayer.initMusicPlayer(song, songs);
+            notifySongChanged(mMusicPlayer.getNowPlayingSong());
             nowPlayingBar.setVisibility(View.VISIBLE);
         }
     }
@@ -215,6 +184,32 @@ public class MainActivity extends BaseActivity implements
                 Manifest.permission.PROCESS_OUTGOING_CALLS,
                 Manifest.permission.READ_PHONE_STATE};
         ActivityCompat.requestPermissions(this, permStrings, 12);
+    }
+
+    @Override
+    public void notifySongChanged(final Song song) {
+        TextView track = findViewById(R.id.track_name);
+        TextView artist = findViewById(R.id.artist_name);
+        ImageView imageView = findViewById(R.id.image_name);
+        ImageView playButton = findViewById(R.id.play);
+
+        track.setText(song.getTrack());
+        artist.setText(song.getArtist());
+        track.setSelected(true);
+        artist.setSelected(true);
+        imageView.setImageBitmap(song.getCoverArt(this));
+        playButton.setImageResource(mMusicPlayer.isNowPlaying()
+                ? ResUtil.getResId(R.attr.pauseIconLite, this)
+                : ResUtil.getResId(R.attr.playIconLite, this));
+        playButton.setOnClickListener(v -> {
+            if (mMusicPlayer.isNowPlaying()) {
+                mMusicPlayer.pauseSong();
+                playButton.setImageResource(ResUtil.getResId(R.attr.playIconLite, this));
+            } else {
+                mMusicPlayer.resumeSong();
+                playButton.setImageResource(ResUtil.getResId(R.attr.pauseIconLite, this));
+            }
+        });
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {

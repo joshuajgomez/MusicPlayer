@@ -20,16 +20,17 @@ import com.workshop.quest.musicplayer.model.Song;
 import com.workshop.quest.musicplayer.view.activity.MusicPlayerActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SongAdapter extends BaseAdapter implements Filterable {
 
-    private ArrayList<Song> songs;
-    private ArrayList<Song> filterSongs;
+    private List<Song> songs;
+    private List<Song> filterSongs;
     private Context context;
     private Song currentSong;
     private SongFilter songFilter;
 
-    public SongAdapter(ArrayList<Song> songs, Context context) {
+    public SongAdapter(List<Song> songs, Context context) {
         this.songs = songs;
         this.filterSongs = songs;
         this.context = context;
@@ -103,7 +104,7 @@ public class SongAdapter extends BaseAdapter implements Filterable {
                 : (songFilter = new SongFilter());
     }
 
-    public ArrayList<Song> getSongs() {
+    public List<Song> getSongs() {
         return songs;
     }
 
@@ -114,7 +115,7 @@ public class SongAdapter extends BaseAdapter implements Filterable {
         return 0;
     }
 
-    public void setSongs(ArrayList<Song> playList) {
+    public void setSongs(List<Song> playList) {
         filterSongs = playList;
         songs = playList;
         notifyDataSetChanged();
@@ -141,7 +142,7 @@ public class SongAdapter extends BaseAdapter implements Filterable {
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            filterSongs = (ArrayList<Song>) results.values;
+            filterSongs = (List<Song>) results.values;
             notifyDataSetChanged();
         }
     }
