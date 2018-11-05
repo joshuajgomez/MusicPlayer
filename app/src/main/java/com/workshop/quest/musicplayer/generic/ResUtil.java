@@ -9,6 +9,8 @@ import android.util.Log;
 
 import com.workshop.quest.musicplayer.BuildConfig;
 import com.workshop.quest.musicplayer.R;
+import com.workshop.quest.musicplayer.base.BaseApp;
+import com.workshop.quest.musicplayer.generic.log.Loggy;
 
 public class ResUtil {
 
@@ -16,11 +18,12 @@ public class ResUtil {
         return BuildConfig.VERSION_NAME;
     }
 
-    public static int getTheme(Context context) {
+    public static int getTheme() {
+        Context context = BaseApp.getInstance().getContext();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean dark_theme = preferences.getBoolean("dark_theme", true);
-        Log.println(Log.ASSERT, "getTheme", dark_theme + "");
-        return dark_theme
+        boolean darkTheme = preferences.getBoolean(Constants.PREF_DARK_THEME, true);
+        Loggy.log(Log.INFO, "darkTheme= " + darkTheme);
+        return darkTheme
                 ? R.style.AppThemeDark
                 : R.style.AppThemeLight;
     }

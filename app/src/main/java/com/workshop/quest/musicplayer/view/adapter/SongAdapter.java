@@ -79,7 +79,8 @@ public class SongAdapter extends BaseAdapter implements Filterable {
             track.setTypeface(null, Typeface.BOLD);
             track.setSelected(true);
             imageOverlay.setVisibility(View.VISIBLE);
-            convertView.setBackgroundColor(mContext.getResources().getColor(ResUtil.getResId(R.attr.listBackground, mContext)));
+            convertView.setBackgroundColor(mContext.getResources().getColor(ResUtil.getResId(R
+                    .attr.listBackground, mContext)));
         } else {
             track.setSelected(false);
             track.setTypeface(null, Typeface.NORMAL);

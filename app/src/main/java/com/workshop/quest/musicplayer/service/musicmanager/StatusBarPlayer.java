@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.IBinder;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -116,4 +117,5 @@ public class StatusBarPlayer implements MusicPlayerCallback {
         }
         Loggy.exitLog();
     }
+
 }

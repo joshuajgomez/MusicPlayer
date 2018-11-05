@@ -1,14 +1,36 @@
 package com.workshop.quest.musicplayer.view.musicplayer;
 
-import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
+import com.workshop.quest.musicplayer.base.BaseActivity;
+import com.workshop.quest.musicplayer.base.BaseApp;
+import com.workshop.quest.musicplayer.generic.Constants;
 import com.workshop.quest.musicplayer.generic.log.Loggy;
+import com.workshop.quest.musicplayer.model.Song;
+import com.workshop.quest.musicplayer.view.fragment.PlayListFragment;
 
-public class MusicPlayerActivity extends Activity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MusicPlayerActivity extends BaseActivity implements PlayListFragment.PlayListInteractor {
 
     private MusicPlayerView mMusicPlayerView;
+
+    public static void play(List<Song> songList, Song song) {
+        Loggy.entryLog();
+        Loggy.log(Log.INFO, "play() called with: songList = [" + songList + "], song = ["
+                + song + "]");
+        Context context = BaseApp.getInstance().getContext();
+        Intent intent = new Intent(context, MusicPlayerActivity.class);
+        intent.putExtra(Constants.EXTRA_SONG, song);
+        intent.putExtra(Constants.EXTRA_SONG_LIST, (ArrayList) songList);
+        context.startActivity(intent);
+        Loggy.exitLog();
+    }
 
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
@@ -35,4 +57,12 @@ public class MusicPlayerActivity extends Activity {
         super.onStop();
         Loggy.exitLog();
     }
+
+    @Override
+    public void onPlaylistClick(Song song, List<Song> list) {
+        Loggy.entryLog();
+        mMusicPlayerView.onPlaylistClick(song, list);
+        Loggy.exitLog();
+    }
+
 }

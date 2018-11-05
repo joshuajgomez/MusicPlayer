@@ -50,6 +50,8 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener, IMusicPlay
      */
     private StatusBarPlayer mStatusBarPlayer;
 
+    private boolean shuffleEnabled = false;
+
     /**
      * Initialises members of {@link MusicPlayer}
      *
@@ -103,6 +105,20 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener, IMusicPlay
         Loggy.exitLog();
     }
 
+    @Override
+    public boolean isShuffleEnabled() {
+        Loggy.entryLog();
+        Loggy.exitLog();
+        return shuffleEnabled;
+    }
+
+    @Override
+    public void setShuffleEnabled(boolean shuffleSong) {
+        Loggy.entryLog();
+        shuffleEnabled = shuffleSong;
+        Loggy.exitLog();
+    }
+
     /**
      * Initialises the mNowPlayingSong and mPlaylist with values and starts playing
      *
@@ -110,10 +126,12 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener, IMusicPlay
      * @param playlist : {@link List} holding playlist of songs
      */
     public void initMusicPlayer(Song song, List<Song> playlist) {
+        Loggy.entryLog();
         Loggy.log(Log.INFO, "song = [" + song + "], playlist = [" + playlist + "]");
         mNowPlayingSong = song;
         mPlaylist = playlist;
         startMusic();
+        Loggy.exitLog();
     }
 
     /**
@@ -164,7 +182,7 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener, IMusicPlay
     private void notifySongChanged() {
         Loggy.entryLog();
         Loggy.log(Log.INFO, "mCallbackList.size() = " + mCallbackList.size());
-        if (mCallbackList.size() > 0) {
+        if (!mCallbackList.isEmpty()) {
             for (MusicPlayerCallback musicPlayerCallback : mCallbackList) {
                 musicPlayerCallback.notifySongChanged(mNowPlayingSong);
             }
@@ -236,10 +254,13 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener, IMusicPlay
     @Override
     public int getCurrentPositionByPercentValue() {
         int currentPosition = 0;
-        try {
-            currentPosition = (mMediaPlayer.getCurrentPosition() * 100) / mNowPlayingSong.getDuration();
-        } catch (IllegalStateException exception) {
-            Loggy.exceptionLog(exception);
+        if (mMediaPlayer != null) {
+            try {
+                currentPosition = (mMediaPlayer.getCurrentPosition() * 100) / mNowPlayingSong
+                        .getDuration();
+            } catch (IllegalStateException exception) {
+                Loggy.exceptionLog(exception);
+            }
         }
         return currentPosition;
     }
@@ -251,7 +272,11 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener, IMusicPlay
      */
     @Override
     public int getCurrentPosition() {
-        return mMediaPlayer.getCurrentPosition();
+        int position = 0;
+        if (mMediaPlayer != null) {
+            position = mMediaPlayer.getCurrentPosition();
+        }
+        return position;
     }
 
     /**
@@ -324,4 +349,5 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener, IMusicPlay
         mMusicPlayerService.stopSelf();
         Loggy.exitLog();
     }
+
 }

@@ -22,16 +22,28 @@ import java.util.List;
 
 public class PlayListFragment extends Fragment implements AdapterView.OnItemClickListener {
 
-    private ListView listView;
-    private static final String SONG_LIST_KEY = "SONG_LIST";
-    private SongAdapter adapter;
-    private PlayListInteractor interactor;
-    private List<Song> songs;
-    private TextView songCount;
-    RecyclerView recyclerView;
+    private ListView mListView;
 
-    public static PlayListFragment newInstance() {
+    private SongAdapter mSongAdapter;
+
+    private List<Song> mSongList;
+
+    private Song mNowPlayingSong;
+
+    private PlayListInteractor mPlayListInteractor;
+
+    private TextView mSongCountTextView;
+
+    private RecyclerView mRecyclerView;
+
+    private static final String BUNDLE_SONG = "BUNDLE_SONG";
+
+    private static final String BUNDLE_SONG_LIST = "BUNDLE_SONG_LIST";
+
+    public static PlayListFragment newInstance(Song song, List<Song> songList) {
         Bundle args = new Bundle();
+        args.putParcelable(BUNDLE_SONG, song);
+        args.putParcelableArrayList(BUNDLE_SONG_LIST, (ArrayList) songList);
         PlayListFragment fragment = new PlayListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -42,53 +54,45 @@ public class PlayListFragment extends Fragment implements AdapterView.OnItemClic
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_play_list, container, false);
-        listView = view.findViewById(R.id.list_view);
-        recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setLayoutManager(new CustomLinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-//        songs = getArguments().getParcelableArrayList(SONG_LIST_KEY);
-        interactor = (PlayListInteractor) getActivity();
-        songCount = view.findViewById(R.id.songs_count);
-        if (interactor != null) {
-            Song currentSong = interactor.getCurrentSong();
-            if (currentSong != null)
-                setCurrentSong(currentSong);
-        }
+        mListView = view.findViewById(R.id.list_view);
+        mRecyclerView = view.findViewById(R.id.recycler_view);
+        mRecyclerView.setLayoutManager(new CustomLinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        mSongList = getArguments().getParcelableArrayList(BUNDLE_SONG_LIST);
+        mNowPlayingSong = getArguments().getParcelable(BUNDLE_SONG);
+        mPlayListInteractor = (PlayListInteractor) getActivity();
+        mSongCountTextView = view.findViewById(R.id.songs_count);
+            if (mNowPlayingSong != null)
+                setCurrentSong(mNowPlayingSong);
         return view;
     }
 
     public void setCurrentSong(Song song) {
-        if (adapter == null) {
-            songs = interactor.getCurrentSongList();
-            recyclerView.setAdapter(new ImageAdpater(getContext(), songs));
-            recyclerView.smoothScrollToPosition(songs.size() - 1);
-            adapter = new SongAdapter(songs, getContext());
-            listView.setAdapter(adapter);
-            listView.setOnItemClickListener(this);
-            songCount.setText(songs.size() + " song" + (songs.size() > 1 ? "s" : ""));
+        if (mSongAdapter == null) {
+            mRecyclerView.setAdapter(new ImageAdpater(getContext(), mSongList));
+            mRecyclerView.smoothScrollToPosition(mSongList.size() - 1);
+            mSongAdapter = new SongAdapter(mSongList, getContext());
+            mListView.setAdapter(mSongAdapter);
+            mListView.setOnItemClickListener(this);
+            mSongCountTextView.setText(mSongList.size() + " song" + (mSongList.size() > 1 ? "s" : ""));
         }
-        adapter.setCurrentSong(song);
-        listView.smoothScrollToPosition(adapter.getPosition(song));
+        mSongAdapter.setCurrentSong(song);
+        mListView.smoothScrollToPosition(mSongAdapter.getPosition(song));
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (interactor != null)
-            interactor.playSong((Song) adapter.getItem(position), songs);
+        if (mPlayListInteractor != null)
+            mPlayListInteractor.onPlaylistClick((Song) mSongAdapter.getItem(position), mSongList);
     }
 
     public void setSongList(List<Song> playList) {
-        songs = playList;
-        adapter.setSongs(playList);
-        listView.smoothScrollToPosition(0);
+        mSongList = playList;
+        mSongAdapter.setSongs(playList);
+        mListView.smoothScrollToPosition(0);
     }
 
     public interface PlayListInteractor {
-        void playSong(Song song, List<Song> list);
-
-        Song getCurrentSong();
-
-        List<Song> getCurrentSongList();
+        void onPlaylistClick(Song song, List<Song> list);
     }
 
 

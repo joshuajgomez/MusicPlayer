@@ -1,6 +1,7 @@
 package com.workshop.quest.musicplayer.service.musicmanager;
 
 import android.app.Activity;
+import android.os.IInterface;
 
 import com.workshop.quest.musicplayer.model.Song;
 
@@ -40,4 +41,8 @@ public interface IMusicPlayer {
     boolean unRegisterCallback(MusicPlayerCallback musicPlayerCallback);
 
     void setCompletionListener(Activity activity);
+
+    boolean isShuffleEnabled();
+
+    void setShuffleEnabled(boolean shuffleSong);
 }

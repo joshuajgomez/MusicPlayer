@@ -8,6 +8,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.workshop.quest.musicplayer.R;
+import com.workshop.quest.musicplayer.base.BaseApp;
 import com.workshop.quest.musicplayer.generic.ResUtil;
 
 public class Song implements Parcelable {

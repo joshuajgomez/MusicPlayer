@@ -10,7 +10,9 @@ import android.widget.ListView;
 
 import com.workshop.quest.musicplayer.R;
 import com.workshop.quest.musicplayer.generic.MediaProvider;
+import com.workshop.quest.musicplayer.generic.log.Loggy;
 import com.workshop.quest.musicplayer.model.Song;
+import com.workshop.quest.musicplayer.view.musicplayer.MusicPlayerActivity;
 import com.workshop.quest.musicplayer.view.musicplayer.MusicPlayerActivity_old;
 import com.workshop.quest.musicplayer.view.adapter.SongAdapter;
 
@@ -49,7 +51,9 @@ public class SongListFragment extends Fragment {
     }
 
     private void itemClick(int position) {
-        MusicPlayerActivity_old.play(getActivity(), songList, (Song) adapter.getItem(position));
+        Loggy.entryLog();
+        MusicPlayerActivity.play(songList, (Song) adapter.getItem(position));
+        Loggy.exitLog();
     }
 
     public interface SongListInteractor {

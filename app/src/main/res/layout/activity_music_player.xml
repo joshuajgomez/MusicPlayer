@@ -128,7 +128,6 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:onClick="repeatButton"
                 android:padding="5dp"
                 android:src="?attr/repeatIconOff" />
 
@@ -141,7 +140,6 @@
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@+id/repeat"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:onClick="prevButton"
                 android:padding="5dp"
                 android:src="?attr/prevIcon" />
 
@@ -153,7 +151,6 @@
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@+id/prev"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:onClick="playButtonClick"
                 android:src="?attr/playIcon" />
 
             <ImageView
@@ -164,7 +161,6 @@
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@+id/play"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:onClick="nextButton"
                 android:padding="5dp"
                 android:src="?attr/nextIcon" />
 
@@ -176,7 +172,6 @@
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@+id/next"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:onClick="shuffleButton"
                 android:padding="5dp"
                 android:src="?attr/shuffleIconOff" />
 
@@ -194,7 +189,6 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:onClick="closeButton"
                 android:padding="8dp"
                 android:src="?attr/closeIcon" />
 
@@ -214,7 +208,6 @@
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_centerVertical="true"
-                    android:onClick="favIconClick"
                     android:padding="3dp"
                     android:src="@mipmap/fav_on" />
 
@@ -227,7 +220,6 @@
                     android:layout_toRightOf="@+id/fav_icon"
                     android:alpha="0.8"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:onClick="shareButton"
                     android:padding="3dp"
                     android:src="?attr/shareIcon" />
 
@@ -241,7 +233,6 @@
                     android:layout_toRightOf="@+id/share"
                     android:alpha="0.7"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:onClick="infoButton"
                     android:src="?attr/infoIcon" />
 
             </RelativeLayout>
@@ -253,7 +244,6 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:onClick="playlistButton"
                 android:padding="8dp"
                 android:src="?attr/playListIcon" />
         </RelativeLayout>

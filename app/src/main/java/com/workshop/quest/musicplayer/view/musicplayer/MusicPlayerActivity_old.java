@@ -181,11 +181,7 @@ public class MusicPlayerActivity_old extends BaseActivity implements SeekBar.OnS
     }
 
     public void playlistButton(View view) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frame_layout, PlayListFragment.newInstance(), PLAY_LIST_FRAGMENT)
-                .addToBackStack(null)
-                .commit();
+
     }
 
     @Override
@@ -218,23 +214,6 @@ public class MusicPlayerActivity_old extends BaseActivity implements SeekBar.OnS
         share.setType("audio/*");
         share.putExtra(Intent.EXTRA_STREAM, uri);
         startActivity(Intent.createChooser(share, "Share " + currentSong.getTrack()));
-    }
-
-    @Override
-    public void playSong(Song song, List<Song> list) {
-        mMusicPlayer.initMusicPlayer(song, list);
-    }
-
-    @Override
-    public Song getCurrentSong() {
-        if (mMusicPlayer != null)
-            return mMusicPlayer.getNowPlayingSong();
-        else return null;
-    }
-
-    @Override
-    public List<Song> getCurrentSongList() {
-        return mMusicPlayer.getPlayList();
     }
 
     public static void play(Context context, ArrayList<Song> songList, Song song) {
@@ -278,7 +257,8 @@ public class MusicPlayerActivity_old extends BaseActivity implements SeekBar.OnS
     @Override
     public void notifySongChanged(final Song song) {
         if (song != null) {
-        playButton.setImageResource(mMusicPlayer.isNowPlaying() ? ResUtil.getResId(R.attr.pauseIcon, this) : ResUtil.getResId(R.attr.playIcon, this));
+        playButton.setImageResource(mMusicPlayer.isNowPlaying() ? ResUtil.getResId(R.attr
+                .pauseIcon, this) : ResUtil.getResId(R.attr.playIcon, this));
         trackName.setText(song.getTrack());
         trackName.setSelected(true);
         artistName.setSelected(true);
@@ -302,5 +282,10 @@ public class MusicPlayerActivity_old extends BaseActivity implements SeekBar.OnS
         } else {
             Loggy.log(Log.WARN, "song is null");
         }
+    }
+
+    @Override
+    public void onPlaylistClick(Song song, List<Song> list) {
+
     }
 }

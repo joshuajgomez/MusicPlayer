@@ -14,6 +14,7 @@ import android.widget.ListView;
 import com.workshop.quest.musicplayer.R;
 import com.workshop.quest.musicplayer.generic.MediaProvider;
 import com.workshop.quest.musicplayer.model.Song;
+import com.workshop.quest.musicplayer.view.musicplayer.MusicPlayerActivity;
 import com.workshop.quest.musicplayer.view.musicplayer.MusicPlayerActivity_old;
 import com.workshop.quest.musicplayer.view.adapter.SongAdapter;
 
@@ -35,7 +36,9 @@ public class SearchFragment extends Fragment implements TextWatcher {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                MusicPlayerActivity_old.play(getActivity(), (ArrayList<Song>) songAdapter.getSongs(), (Song) songAdapter.getItem(position));
+                MusicPlayerActivity.play(songAdapter.getSongs(), (Song) songAdapter
+                        .getItem
+                        (position));
             }
         });
         searchText.addTextChangedListener(this);

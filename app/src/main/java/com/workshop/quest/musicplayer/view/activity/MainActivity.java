@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.workshop.quest.musicplayer.generic.log.Loggy;
 import com.workshop.quest.musicplayer.service.musicmanager.IMusicPlayer;
 import com.workshop.quest.musicplayer.service.musicmanager.MusicPlayerCallback;
 import com.workshop.quest.musicplayer.service.MusicPlayerService;
@@ -34,6 +35,7 @@ import com.workshop.quest.musicplayer.view.fragment.AlbumListFragment;
 import com.workshop.quest.musicplayer.view.fragment.FragmentPlaylist;
 import com.workshop.quest.musicplayer.view.fragment.SearchFragment;
 import com.workshop.quest.musicplayer.view.fragment.SongListFragment;
+import com.workshop.quest.musicplayer.view.musicplayer.MusicPlayerActivity;
 import com.workshop.quest.musicplayer.view.musicplayer.MusicPlayerActivity_old;
 
 import java.util.ArrayList;
@@ -101,7 +103,7 @@ public class MainActivity extends BaseActivity implements MusicPlayerCallback,
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        Log.println(Log.ASSERT, "PermissionsResult", arrayToString(grantResults));
+        Loggy.log(Log.INFO, "PermissionsResult: " +  arrayToString(grantResults));
         if (requestCode == 12 &&
                 checkPermission(grantResults)) {
             initUI();
@@ -156,7 +158,7 @@ public class MainActivity extends BaseActivity implements MusicPlayerCallback,
     }
 
     public void playSong(View view) {
-        startActivity(new Intent(this, MusicPlayerActivity_old.class));
+        startActivity(new Intent(this, MusicPlayerActivity.class));
     }
 
     @Override

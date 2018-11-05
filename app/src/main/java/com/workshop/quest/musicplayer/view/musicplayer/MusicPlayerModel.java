@@ -15,7 +15,7 @@ import com.workshop.quest.musicplayer.service.musicmanager.MusicPlayerCallback;
 
 import java.util.List;
 
-public class MusicPlayerModel implements IMusicPlayerModel, MusicPlayerCallback {
+public class MusicPlayerModel implements IMusicPlayerModel {
 
     private Context mContext;
 
@@ -27,23 +27,27 @@ public class MusicPlayerModel implements IMusicPlayerModel, MusicPlayerCallback 
 
     private boolean isBound = false;
 
+    private List<Song> mSongList;
+
     public MusicPlayerModel(Context context, IMusicPlayerPresenter musicPlayerPresenter) {
         Loggy.entryLog();
         mContext = context;
         mMusicPlayerPresenter = musicPlayerPresenter;
+        onStart();
         Loggy.exitLog();
     }
 
     @Override
     public void initMusicPlayer(final Song song, final List<Song> songList) {
         Loggy.entryLog();
-        Loggy.log(Log.INFO, "song = [" + song + "], songList = [" + songList + "]");
         mMusicPlayer.initMusicPlayer(song, songList);
         Loggy.exitLog();
     }
 
     @Override
     public Song getNowPlayingSong() {
+        Loggy.entryLog();
+        Loggy.exitLog();
         return mMusicPlayer.getNowPlayingSong();
     }
 
@@ -66,10 +70,12 @@ public class MusicPlayerModel implements IMusicPlayerModel, MusicPlayerCallback 
 
     @Override
     public void onStop() {
+        Loggy.entryLog();
         if (isBound) {
             mMusicPlayer.unRegisterCallback(this);
             mContext.unbindService(mMusicServiceConnection);
         }
+        Loggy.exitLog();
     }
 
     @Override
@@ -78,6 +84,69 @@ public class MusicPlayerModel implements IMusicPlayerModel, MusicPlayerCallback 
         mMusicServiceConnection = new MusicServiceConnection();
         Intent serviceIntent = new Intent(mContext, MusicPlayerService.class);
         mContext.bindService(serviceIntent, mMusicServiceConnection, Context.BIND_AUTO_CREATE);
+        Loggy.exitLog();
+    }
+
+    @Override
+    public boolean isNowPlaying() {
+        Loggy.entryLog();
+        Loggy.exitLog();
+        return mMusicPlayer.isNowPlaying();
+    }
+
+    @Override
+    public void pauseSong() {
+        Loggy.entryLog();
+        mMusicPlayer.pauseSong();
+        Loggy.exitLog();
+    }
+
+    @Override
+    public void resumeSong() {
+        Loggy.entryLog();
+        mMusicPlayer.resumeSong();
+        Loggy.exitLog();
+    }
+
+    @Override
+    public void startNextSong() {
+        Loggy.entryLog();
+        mMusicPlayer.startNextSong();
+        Loggy.exitLog();
+    }
+
+    @Override
+    public boolean isShuffleEnabled() {
+        Loggy.entryLog();
+        Loggy.exitLog();
+        return mMusicPlayer.isShuffleEnabled();
+    }
+
+    @Override
+    public void setShuffleEnabled(boolean shuffleSong) {
+        Loggy.entryLog();
+        mMusicPlayer.setShuffleEnabled(shuffleSong);
+        Loggy.exitLog();
+    }
+
+    @Override
+    public List<Song> getSongList() {
+        Loggy.entryLog();
+        Loggy.exitLog();
+        return mSongList;
+    }
+
+    @Override
+    public void startPreviousSong() {
+        Loggy.entryLog();
+        mMusicPlayer.startPreviousSong();
+        Loggy.exitLog();
+    }
+
+    @Override
+    public void setPlaylist(List<Song> songList) {
+        Loggy.entryLog();
+        mSongList = songList;
         Loggy.exitLog();
     }
 
@@ -98,6 +167,7 @@ public class MusicPlayerModel implements IMusicPlayerModel, MusicPlayerCallback 
             mMusicPlayer = musicBinder.getMusicPlayer();
             mMusicPlayer.registerCallback(MusicPlayerModel.this);
             isBound = true;
+            mMusicPlayerPresenter.onBindComplete();
             Loggy.exitLog();
         }
 

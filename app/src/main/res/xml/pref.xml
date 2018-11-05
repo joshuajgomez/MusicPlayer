@@ -4,7 +4,7 @@
     <PreferenceCategory android:title="Customise">
         <SwitchPreference
             android:defaultValue="true"
-            android:key="dark_theme"
+            android:key="PREF_DARK_THEME"
             android:summaryOff="Light theme"
             android:summaryOn="Dark theme"
             android:title="Enable dark theme" />
