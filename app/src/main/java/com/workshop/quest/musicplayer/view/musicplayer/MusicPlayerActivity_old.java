@@ -1,4 +1,4 @@
-package com.workshop.quest.musicplayer.view.activity;
+package com.workshop.quest.musicplayer.view.musicplayer;
 
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MusicPlayerActivity extends BaseActivity implements SeekBar.OnSeekBarChangeListener,
+public class MusicPlayerActivity_old extends BaseActivity implements SeekBar.OnSeekBarChangeListener,
         MusicPlayerCallback, PlayListFragment.PlayListInteractor {
 
     private TextView currentTime;
@@ -59,7 +59,7 @@ public class MusicPlayerActivity extends BaseActivity implements SeekBar.OnSeekB
             isBound = true;
             MusicPlayerService.MusicBinder musicBinder = (MusicPlayerService.MusicBinder) service;
             mMusicPlayer = musicBinder.getMusicPlayer();
-            mMusicPlayer.registerCallback(MusicPlayerActivity.this);
+            mMusicPlayer.registerCallback(MusicPlayerActivity_old.this);
             initUI();
         }
 
@@ -238,7 +238,7 @@ public class MusicPlayerActivity extends BaseActivity implements SeekBar.OnSeekB
     }
 
     public static void play(Context context, ArrayList<Song> songList, Song song) {
-        Intent intent = new Intent(context, MusicPlayerActivity.class);
+        Intent intent = new Intent(context, MusicPlayerActivity_old.class);
         intent.putExtra("song", song);
         intent.putExtra("song_list", songList);
         context.startActivity(intent);

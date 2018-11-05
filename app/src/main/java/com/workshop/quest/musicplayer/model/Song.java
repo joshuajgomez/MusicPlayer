@@ -12,21 +12,26 @@ import com.workshop.quest.musicplayer.generic.ResUtil;
 
 public class Song implements Parcelable {
 
-
     private long id;
-    private String album;
-    private String track;
-    private String fileName;
-    private String artist;
-    private int duration;
-    private String songUrl;
-    private String composer;
-    private long dateAdded;
 
+    private String album;
+
+    private String track;
+
+    private String fileName;
+
+    private String artist;
+
+    private int duration;
+
+    private String songUrl;
+
+    private String composer;
+
+    private long dateAdded;
 
     public Song() {
     }
-
 
     protected Song(Parcel in) {
         id = in.readLong();
@@ -151,5 +156,20 @@ public class Song implements Parcelable {
         dest.writeString(songUrl);
         dest.writeString(composer);
         dest.writeLong(dateAdded);
+    }
+
+    @Override
+    public String toString() {
+        return "Song{" +
+                "id=" + id +
+                ", album='" + album + '\'' +
+                ", track='" + track + '\'' +
+                ", fileName='" + fileName + '\'' +
+                ", artist='" + artist + '\'' +
+                ", duration=" + duration +
+                ", songUrl='" + songUrl + '\'' +
+                ", composer='" + composer + '\'' +
+                ", dateAdded=" + dateAdded +
+                '}';
     }
 }

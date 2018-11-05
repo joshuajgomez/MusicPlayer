@@ -105,7 +105,8 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener, IMusicPlay
 
     /**
      * Initialises the mNowPlayingSong and mPlaylist with values and starts playing
-     * @param song : Instance of {@link Song}
+     *
+     * @param song     : Instance of {@link Song}
      * @param playlist : {@link List} holding playlist of songs
      */
     public void initMusicPlayer(Song song, List<Song> playlist) {
@@ -148,6 +149,7 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener, IMusicPlay
 
     /**
      * Returns the playing status of mNowPlayingSong
+     *
      * @return true or false
      */
     public boolean isNowPlaying() {
@@ -172,6 +174,7 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener, IMusicPlay
 
     /**
      * Invokes when current playing song is complete
+     *
      * @param mediaPlayer : Instance f {@link MediaPlayer}
      */
     @Override
@@ -227,6 +230,7 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener, IMusicPlay
 
     /**
      * Returns current playing position in percent values
+     *
      * @return percent value
      */
     @Override
@@ -235,13 +239,14 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener, IMusicPlay
         try {
             currentPosition = (mMediaPlayer.getCurrentPosition() * 100) / mNowPlayingSong.getDuration();
         } catch (IllegalStateException exception) {
-            Loggy.log(Log.ERROR, exception.getMessage());
+            Loggy.exceptionLog(exception);
         }
         return currentPosition;
     }
 
     /**
      * Returns current playing position
+     *
      * @return
      */
     @Override
@@ -251,6 +256,7 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener, IMusicPlay
 
     /**
      * Seek {@link MediaPlayer} to a specific position
+     *
      * @param progress : position to seek to
      */
     @Override
@@ -262,6 +268,7 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener, IMusicPlay
 
     /**
      * Returns current playlist
+     *
      * @return List<Song>
      */
     @Override
@@ -273,6 +280,7 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener, IMusicPlay
 
     /**
      * Returns instance of now playing song
+     *
      * @return
      */
     @Override
@@ -284,7 +292,8 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener, IMusicPlay
 
     /**
      * Starts status bar player
-     * @param id : Id for notification
+     *
+     * @param id           : Id for notification
      * @param notification : Instance of {@link Notification}
      */
     public void startStatusBarPlayer(final int id, final Notification notification) {
@@ -295,6 +304,7 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener, IMusicPlay
 
     /**
      * Invoked when status bar controls are triggered
+     *
      * @param intent : Instance of {@link Intent}
      */
     public void onStatusBarEvent(final Intent intent) {

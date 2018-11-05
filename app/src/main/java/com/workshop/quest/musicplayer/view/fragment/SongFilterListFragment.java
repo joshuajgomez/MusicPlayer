@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.workshop.quest.musicplayer.R;
 import com.workshop.quest.musicplayer.generic.MediaProvider;
 import com.workshop.quest.musicplayer.model.Song;
-import com.workshop.quest.musicplayer.view.activity.MusicPlayerActivity;
+import com.workshop.quest.musicplayer.view.musicplayer.MusicPlayerActivity_old;
 import com.workshop.quest.musicplayer.view.adapter.SongAdapter;
 
 import java.util.ArrayList;
@@ -69,7 +69,7 @@ public class SongFilterListFragment extends Fragment {
 
         ArrayList<Song> finalSongs = songs;
         listView.setOnItemClickListener((parent, view2, position, id) -> {
-            Intent intent2 = new Intent(getActivity(), MusicPlayerActivity.class);
+            Intent intent2 = new Intent(getActivity(), MusicPlayerActivity_old.class);
             intent2.putExtra("song", (Song) adapter.getItem(position));
             intent2.putExtra("song_list", finalSongs);
             startActivity(intent2);

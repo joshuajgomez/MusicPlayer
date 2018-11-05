@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.workshop.quest.musicplayer.R;
 import com.workshop.quest.musicplayer.generic.database.DatabaseManager;
 import com.workshop.quest.musicplayer.model.Song;
-import com.workshop.quest.musicplayer.view.activity.MusicPlayerActivity;
+import com.workshop.quest.musicplayer.view.musicplayer.MusicPlayerActivity_old;
 import com.workshop.quest.musicplayer.view.adapter.SongAdapter;
 
 import java.util.ArrayList;
@@ -67,7 +67,7 @@ public class PlaylistDetailFragment extends Fragment {
     }
 
     private void itemClick(int position) {
-        Intent intent = new Intent(getActivity(), MusicPlayerActivity.class);
+        Intent intent = new Intent(getActivity(), MusicPlayerActivity_old.class);
         intent.putExtra("song", (Song) adapter.getItem(position));
         intent.putExtra("song_list", songs);
         startActivity(intent);

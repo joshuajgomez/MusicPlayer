@@ -4,28 +4,38 @@ import android.util.Log;
 
 public class Loggy {
 
-    public static void log(int logLevel, String message){
+    public static void log(int logLevel, String message) {
         StackTraceElement element = Thread.currentThread().getStackTrace()[3];
         String[] strings = element.getClassName().split("\\.");
-        String className = strings[strings.length-1];
+        String className = strings[strings.length - 1];
         String tag = className + " " + element.getMethodName();
         Log.println(logLevel, tag, message);
     }
 
-    public static void entryLog(){
+    public static void entryLog() {
         StackTraceElement element = Thread.currentThread().getStackTrace()[3];
         String[] strings = element.getClassName().split("\\.");
-        String className = strings[strings.length-1];
+        String className = strings[strings.length - 1];
         String tag = className + " " + element.getMethodName();
         Log.println(Log.INFO, tag, ">>> Entry");
     }
 
-    public static void exitLog(){
+    public static void exitLog() {
         StackTraceElement element = Thread.currentThread().getStackTrace()[3];
         String[] strings = element.getClassName().split("\\.");
-        String className = strings[strings.length-1];
+        String className = strings[strings.length - 1];
         String tag = className + " " + element.getMethodName();
         Log.println(Log.INFO, tag, "<<< Exit");
+    }
+
+    public static void exceptionLog(Throwable throwable) {
+        StackTraceElement element = Thread.currentThread().getStackTrace()[3];
+        String[] strings = element.getClassName().split("\\.");
+        String className = strings[strings.length - 1];
+        String tag = className + " " + element.getMethodName();
+        if (throwable.getMessage() != null) {
+            Log.println(Log.ERROR, tag, throwable.getMessage());
+        }
     }
 
 }

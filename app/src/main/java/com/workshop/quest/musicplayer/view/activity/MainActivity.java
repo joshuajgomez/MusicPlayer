@@ -34,6 +34,7 @@ import com.workshop.quest.musicplayer.view.fragment.AlbumListFragment;
 import com.workshop.quest.musicplayer.view.fragment.FragmentPlaylist;
 import com.workshop.quest.musicplayer.view.fragment.SearchFragment;
 import com.workshop.quest.musicplayer.view.fragment.SongListFragment;
+import com.workshop.quest.musicplayer.view.musicplayer.MusicPlayerActivity_old;
 
 import java.util.ArrayList;
 
@@ -155,7 +156,7 @@ public class MainActivity extends BaseActivity implements MusicPlayerCallback,
     }
 
     public void playSong(View view) {
-        startActivity(new Intent(this, MusicPlayerActivity.class));
+        startActivity(new Intent(this, MusicPlayerActivity_old.class));
     }
 
     @Override

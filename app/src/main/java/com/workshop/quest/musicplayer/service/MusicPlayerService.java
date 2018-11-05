@@ -10,12 +10,23 @@ import android.util.Log;
 import com.workshop.quest.musicplayer.generic.log.Loggy;
 import com.workshop.quest.musicplayer.service.musicmanager.MusicPlayer;
 
+/**
+ * Service playing music
+ */
 public class MusicPlayerService extends Service {
 
+    /**
+     * Subclass of {@link IBinder} for service binding
+     */
     private MusicBinder mMusicBinder = new MusicBinder();
-
+    /**
+     * Handles all logic related to playing music
+     */
     private MusicPlayer mMusicPlayer;
 
+    /**
+     * Initialises {@link MusicPlayer} when {@link MusicPlayerService} is created
+     */
     @Override
     public void onCreate() {
         Loggy.entryLog();
@@ -24,6 +35,11 @@ public class MusicPlayerService extends Service {
         Loggy.exitLog();
     }
 
+    /**
+     * Invoked to bind to service
+     * @param intent : Instance of {@link Intent}
+     * @return
+     */
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -32,6 +48,9 @@ public class MusicPlayerService extends Service {
         return mMusicBinder;
     }
 
+    /**
+     * Subclass of {@link Binder} for binding
+     */
     public class MusicBinder extends Binder {
 
         public MusicPlayer getMusicPlayer() {
@@ -42,6 +61,13 @@ public class MusicPlayerService extends Service {
 
     }
 
+    /**
+     * Invoked when service start events are triggered
+     * @param intent
+     * @param flags
+     * @param startId
+     * @return
+     */
     @Override
     public int onStartCommand(final Intent intent, final int flags, final int startId) {
         if (intent != null && intent.getAction() != null) {

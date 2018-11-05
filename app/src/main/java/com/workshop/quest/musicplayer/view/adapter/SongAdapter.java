@@ -3,7 +3,6 @@ package com.workshop.quest.musicplayer.view.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,50 +16,48 @@ import com.workshop.quest.musicplayer.R;
 import com.workshop.quest.musicplayer.generic.BitmapBuilder;
 import com.workshop.quest.musicplayer.generic.ResUtil;
 import com.workshop.quest.musicplayer.model.Song;
-import com.workshop.quest.musicplayer.view.activity.MusicPlayerActivity;
+import com.workshop.quest.musicplayer.view.musicplayer.MusicPlayerActivity_old;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SongAdapter extends BaseAdapter implements Filterable {
 
-    private List<Song> songs;
-    private List<Song> filterSongs;
-    private Context context;
-    private Song currentSong;
-    private SongFilter songFilter;
+    private List<Song> mSongs;
+    private List<Song> mFilterSongs;
+    private Context mContext;
+    private Song mCurrentSong;
+    private SongFilter mSongFilter;
 
     public SongAdapter(List<Song> songs, Context context) {
-        this.songs = songs;
-        this.filterSongs = songs;
-        this.context = context;
+        this.mSongs = songs;
+        this.mFilterSongs = songs;
+        this.mContext = context;
     }
 
     @Override
     public int getCount() {
-        return filterSongs != null ? filterSongs.size() : 0;
+        return mFilterSongs != null ? mFilterSongs.size() : 0;
     }
 
     @Override
     public Object getItem(int position) {
-        return filterSongs.get(position);
+        return mFilterSongs.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return filterSongs.get(position).getId();
+        return mFilterSongs.get(position).getId();
     }
 
     @SuppressLint("StaticFieldLeak")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-
         Song song = (Song) getItem(position);
-        Log.println(Log.ASSERT, "getView", song.toString());
 
         if (convertView == null) {
-            LayoutInflater inflater = LayoutInflater.from(context);
+            LayoutInflater inflater = LayoutInflater.from(mContext);
             convertView = inflater.inflate(R.layout.song_list_item, parent, false);
         }
 
@@ -70,54 +67,54 @@ public class SongAdapter extends BaseAdapter implements Filterable {
         TextView artist = convertView.findViewById(R.id.artist);
 
         imageView.setTag(song.getId());
-        BitmapBuilder bitmapBuilder = new BitmapBuilder(imageView, context);
+        BitmapBuilder bitmapBuilder = new BitmapBuilder(imageView, mContext);
         bitmapBuilder.execute(song);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         track.setText(song.getTrack());
-        artist.setText(MusicPlayerActivity.getTime(song.getDuration()));
+        artist.setText(MusicPlayerActivity_old.getTime(song.getDuration()));
         artist.append(" \u2022 ");
         artist.append(song.getArtist());
 
-        if (currentSong != null && song.getId() == currentSong.getId()) {
+        if (mCurrentSong != null && song.getId() == mCurrentSong.getId()) {
             track.setTypeface(null, Typeface.BOLD);
             track.setSelected(true);
             imageOverlay.setVisibility(View.VISIBLE);
-            convertView.setBackgroundColor(context.getResources().getColor(ResUtil.getResId(R.attr.listBackground, context)));
+            convertView.setBackgroundColor(mContext.getResources().getColor(ResUtil.getResId(R.attr.listBackground, mContext)));
         } else {
             track.setSelected(false);
             track.setTypeface(null, Typeface.NORMAL);
             imageOverlay.setVisibility(View.GONE);
-            convertView.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+            convertView.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));
         }
         return convertView;
     }
 
     public void setCurrentSong(Song song) {
-        this.currentSong = song;
+        this.mCurrentSong = song;
         notifyDataSetChanged();
     }
 
     @Override
     public Filter getFilter() {
-        return songFilter != null
-                ? songFilter
-                : (songFilter = new SongFilter());
+        return mSongFilter != null
+                ? mSongFilter
+                : (mSongFilter = new SongFilter());
     }
 
     public List<Song> getSongs() {
-        return songs;
+        return mSongs;
     }
 
     public int getPosition(Song song) {
-        for (int i = 0; i < filterSongs.size(); i++)
-            if (filterSongs.get(i).getId() == song.getId())
+        for (int i = 0; i < mFilterSongs.size(); i++)
+            if (mFilterSongs.get(i).getId() == song.getId())
                 return i;
         return 0;
     }
 
     public void setSongs(List<Song> playList) {
-        filterSongs = playList;
-        songs = playList;
+        mFilterSongs = playList;
+        mSongs = playList;
         notifyDataSetChanged();
     }
 
@@ -129,7 +126,7 @@ public class SongAdapter extends BaseAdapter implements Filterable {
             FilterResults filterResults = new FilterResults();
             ArrayList<Song> list = new ArrayList<Song>();
 
-            for (Song song : songs)
+            for (Song song : mSongs)
                 if (song.getTrack().toLowerCase().contains(query.toLowerCase()) ||
                         song.getArtist().toLowerCase().contains(query.toLowerCase()) ||
                         song.getAlbum().toLowerCase().contains(query.toLowerCase()))
@@ -142,7 +139,7 @@ public class SongAdapter extends BaseAdapter implements Filterable {
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            filterSongs = (List<Song>) results.values;
+            mFilterSongs = (List<Song>) results.values;
             notifyDataSetChanged();
         }
     }

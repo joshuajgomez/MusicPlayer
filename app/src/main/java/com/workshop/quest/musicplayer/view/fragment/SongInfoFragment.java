@@ -1,7 +1,5 @@
 package com.workshop.quest.musicplayer.view.fragment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,7 +10,7 @@ import android.widget.TextView;
 
 import com.workshop.quest.musicplayer.R;
 import com.workshop.quest.musicplayer.model.Song;
-import com.workshop.quest.musicplayer.view.activity.MusicPlayerActivity;
+import com.workshop.quest.musicplayer.view.musicplayer.MusicPlayerActivity_old;
 
 
 public class SongInfoFragment extends Fragment {
@@ -54,7 +52,7 @@ public class SongInfoFragment extends Fragment {
 
         title.setText(song.getTrack());
         artist.setText(song.getArtist());
-        duration.setText(MusicPlayerActivity.getTime(song.getDuration()));
+        duration.setText(MusicPlayerActivity_old.getTime(song.getDuration()));
         album.setText(song.getAlbum());
         composer.setText(song.getComposer());
         fileLocation.setText(song.getSongUrl());
