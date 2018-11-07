@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor"
     android:clickable="true"
-    tools:context="com.workshop.quest.musicplayer.view.fragment.SongInfoFragment">
+    tools:context="com.joshgomez.musicplayer.view.fragment.SongInfoFragment">
 
 
     <ScrollView

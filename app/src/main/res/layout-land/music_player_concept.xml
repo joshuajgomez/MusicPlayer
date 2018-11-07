@@ -227,7 +227,7 @@
 
             <fragment
                 android:id="@+id/playlist_fragment"
-                android:name="com.workshop.quest.musicplayer.view.fragment.PlayListFragment"
+                android:name="com.joshgomez.musicplayer.view.fragment.PlayListFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="20"
