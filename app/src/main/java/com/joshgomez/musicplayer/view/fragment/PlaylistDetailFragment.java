@@ -11,10 +11,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.joshgomez.musicplayer.R;
+import com.joshgomez.musicplayer.generic.Constants;
 import com.joshgomez.musicplayer.generic.database.DatabaseManager;
 import com.joshgomez.musicplayer.model.Song;
-import com.joshgomez.musicplayer.view.musicplayer.MusicPlayerActivity_old;
+
 import com.joshgomez.musicplayer.view.adapter.SongAdapter;
+import com.joshgomez.musicplayer.view.musicplayer.MusicPlayerActivity;
 
 import java.util.ArrayList;
 
@@ -67,10 +69,7 @@ public class PlaylistDetailFragment extends Fragment {
     }
 
     private void itemClick(int position) {
-        Intent intent = new Intent(getActivity(), MusicPlayerActivity_old.class);
-        intent.putExtra("song", (Song) adapter.getItem(position));
-        intent.putExtra("song_list", songs);
-        startActivity(intent);
+        MusicPlayerActivity.play(songs, (Song) adapter.getItem(position));
     }
 
 }

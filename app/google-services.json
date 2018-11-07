@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "595166964370",
+    "firebase_url": "https://marshall-music-player.firebaseio.com",
+    "project_id": "marshall-music-player",
+    "storage_bucket": "marshall-music-player.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:595166964370:android:a715e9989a7e92cd",
+        "android_client_info": {
+          "package_name": "com.joshgomez.musicplayer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "595166964370-sri8m41gk1b1siahtv44obrsngf3e5si.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYrIcCG_3fQ9V9I9GiIscg0Znvc-Qfwfs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

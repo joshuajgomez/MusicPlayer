@@ -14,9 +14,10 @@ import android.widget.TextView;
 
 import com.joshgomez.musicplayer.R;
 import com.joshgomez.musicplayer.generic.BitmapBuilder;
+import com.joshgomez.musicplayer.generic.DateUtil;
 import com.joshgomez.musicplayer.generic.ResUtil;
 import com.joshgomez.musicplayer.model.Song;
-import com.joshgomez.musicplayer.view.musicplayer.MusicPlayerActivity_old;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +72,7 @@ public class SongAdapter extends BaseAdapter implements Filterable {
         bitmapBuilder.execute(song);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         track.setText(song.getTrack());
-        artist.setText(MusicPlayerActivity_old.getTime(song.getDuration()));
+        artist.setText(DateUtil.getPrettyTime(song.getDuration()));
         artist.append(" \u2022 ");
         artist.append(song.getArtist());
 

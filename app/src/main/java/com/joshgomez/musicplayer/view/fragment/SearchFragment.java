@@ -15,7 +15,7 @@ import com.joshgomez.musicplayer.R;
 import com.joshgomez.musicplayer.generic.MediaProvider;
 import com.joshgomez.musicplayer.model.Song;
 import com.joshgomez.musicplayer.view.musicplayer.MusicPlayerActivity;
-import com.joshgomez.musicplayer.view.musicplayer.MusicPlayerActivity_old;
+
 import com.joshgomez.musicplayer.view.adapter.SongAdapter;
 
 import java.util.ArrayList;

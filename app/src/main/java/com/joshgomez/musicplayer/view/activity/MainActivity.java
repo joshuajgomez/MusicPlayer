@@ -36,7 +36,7 @@ import com.joshgomez.musicplayer.view.fragment.FragmentPlaylist;
 import com.joshgomez.musicplayer.view.fragment.SearchFragment;
 import com.joshgomez.musicplayer.view.fragment.SongListFragment;
 import com.joshgomez.musicplayer.view.musicplayer.MusicPlayerActivity;
-import com.joshgomez.musicplayer.view.musicplayer.MusicPlayerActivity_old;
+
 
 import java.util.ArrayList;
 

@@ -13,8 +13,9 @@ import android.widget.TextView;
 import com.joshgomez.musicplayer.R;
 import com.joshgomez.musicplayer.generic.MediaProvider;
 import com.joshgomez.musicplayer.model.Song;
-import com.joshgomez.musicplayer.view.musicplayer.MusicPlayerActivity_old;
+
 import com.joshgomez.musicplayer.view.adapter.SongAdapter;
+import com.joshgomez.musicplayer.view.musicplayer.MusicPlayerActivity;
 
 import java.util.ArrayList;
 
@@ -69,10 +70,7 @@ public class SongFilterListFragment extends Fragment {
 
         ArrayList<Song> finalSongs = songs;
         listView.setOnItemClickListener((parent, view2, position, id) -> {
-            Intent intent2 = new Intent(getActivity(), MusicPlayerActivity_old.class);
-            intent2.putExtra("song", (Song) adapter.getItem(position));
-            intent2.putExtra("song_list", finalSongs);
-            startActivity(intent2);
+            MusicPlayerActivity.play(finalSongs, (Song) adapter.getItem(position));
         });
 
         imageView.setImageBitmap(songs.get(0).getCoverArt(getActivity()));

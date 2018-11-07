@@ -16,8 +16,6 @@ import com.joshgomez.musicplayer.view.fragment.PlayListFragment;
 
 import java.util.List;
 
-import static com.joshgomez.musicplayer.view.musicplayer.MusicPlayerActivity_old.getTime;
-
 /**
  * Handles all UI operations of {@link MusicPlayerActivity}
  */
@@ -144,7 +142,7 @@ public class MusicPlayerView implements IMusicPlayerView, SeekBar.OnSeekBarChang
             mArtistName.setSelected(true);
             mArtistName.setText(song.getArtist());
             mCurrentTime.setText(DateUtil.getPrettyTime(0));
-            mTotalTime.setText(getTime(song.getDuration()));
+            mTotalTime.setText(DateUtil.getPrettyTime(song.getDuration()));
             mAlbumArt.setImageBitmap(song.getCoverArt(mMusicPlayerActivity));
             mAlbumArt.setScaleType(ImageView.ScaleType.CENTER_CROP);
 

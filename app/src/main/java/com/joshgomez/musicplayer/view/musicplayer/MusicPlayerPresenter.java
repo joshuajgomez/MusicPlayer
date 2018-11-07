@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.joshgomez.musicplayer.R;
 import com.joshgomez.musicplayer.generic.Constants;
+import com.joshgomez.musicplayer.generic.DateUtil;
 import com.joshgomez.musicplayer.generic.ResUtil;
 import com.joshgomez.musicplayer.generic.SharedUtil;
 import com.joshgomez.musicplayer.generic.database.DatabaseManager;
@@ -23,7 +24,7 @@ import java.util.TimerTask;
 
 import static com.joshgomez.musicplayer.generic.Constants.EXTRA_SONG;
 import static com.joshgomez.musicplayer.generic.Constants.EXTRA_SONG_LIST;
-import static com.joshgomez.musicplayer.view.musicplayer.MusicPlayerActivity_old.getTime;
+
 
 /**
  * Presenter class for Music Player Screen
@@ -228,7 +229,7 @@ public class MusicPlayerPresenter implements IMusicPlayerPresenter {
             public void run() {
                 mHandler.post(() -> {
                     int percentValue = mMusicPlayerModel.getCurrentPositionByPercentValue();
-                    String time = getTime(mMusicPlayerModel.getCurrentPosition());
+                    String time = DateUtil.getPrettyTime(mMusicPlayerModel.getCurrentPosition());
                     mMusicPlayerView.updateProgress(time, percentValue);
                 });
             }

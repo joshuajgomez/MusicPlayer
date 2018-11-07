@@ -61,6 +61,7 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener, IMusicPlay
         mContext = musicPlayerService;
         mMusicPlayerService = musicPlayerService;
         mStatusBarPlayer = new StatusBarPlayer(mContext, this);
+        AutoPauseManager.getInstance().registerCallback(this);
         registerCallback(mStatusBarPlayer);
     }
 

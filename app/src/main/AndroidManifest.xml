@@ -51,6 +51,9 @@
             <intent-filter>
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="com.joshgomez.pause" />
+            </intent-filter>
         </receiver>
 
 
